@@ -20,6 +20,9 @@ pyjstat = "*"
 python-dotenv = "*"
 requests = "*"
 scikit-learn = "*"
+gspread = "*"
+gspread-dataframe = "*"
+gspread-formatting = "*"
 
 [requires]
 python_version = "3.8"
