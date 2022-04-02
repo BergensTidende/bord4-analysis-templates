@@ -7,7 +7,8 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Requirements</a></li>
+        <li><a href="#requirements">Requirements</a></li>
+        <li><a href="#structure">Structure</a></li>
       </ul>
     </li>
     <li>
@@ -43,6 +44,49 @@ brew upgrade
 brew install pyenv
 brew install pipenv
 ```
+
+### Structure
+
+```
+.
+├── README.md
+├── data
+│   ├── processed
+│   ├── public
+│   ├── source
+│   └── untracked
+├── etl
+├── src
+└── templates
+```
+
+- `README.md`
+  - This file.
+- `data`
+  - This is the directory used for storing and saving data, mirrored from the cookiecutter-bord4-analysis structure
+  - `data/processed`
+    - Contains data that has either been transformed from an `etl` script or output from an `analysis` jupyter notebook.
+    - Data that has been transformed from an `etl` script will follow a naming convention: `etl_{file_name}.[csv,json...]`
+  - `data/public`
+    - Public-facing data files go here - data files which are 'live'.
+  - `data/source``
+    - Raw untouched data. Data in this folder should never be altered
+  - `data/untracked`
+    - Files that are either to large or to sensitive to be on github goes here.
+- etl
+  - symlinked to templates. In a real world project notebooks in other directories will fetch from scripts in etl. 
+- src
+  - Python files used as utils that can be imported from notebooks and script.
+  - `src/dataframe`
+    - util functions for working with dataframes
+  - `src/integration`
+    - helper functions when working with Schibsted MM API
+  - `src/log`
+    - better log functions
+  - `src/scripts`
+    - for scripts used by the make file
+  - `src/utils`
+    - much needed utils functions. Like code for uploading to S3.
 
 ## Usage
 
