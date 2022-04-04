@@ -45,6 +45,15 @@ brew install pyenv
 brew install pipenv
 ```
 
+### Makefile commands
+
+- `make lint`
+  - lint the code in the src folder
+- `make lab`
+  - run jupyter lab
+- `make new`
+  - creates a new template notebook by copying generic header
+
 ### Structure
 
 ```
