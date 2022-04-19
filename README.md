@@ -152,4 +152,4 @@ If your're working a fork:
 
 ## Contact
 
-Lasse Lambrechts - [@lambrechts](https://twitter.com/lambrechts) - lasse.lambrechts@bt.no
+Bord4 - bord4@bt.no
