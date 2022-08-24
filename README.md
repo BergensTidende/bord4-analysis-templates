@@ -30,6 +30,7 @@
 
 Rewriting code is tedious, meaningless and boring. To counter act this horror we collect our best code snippets in this repo to be used in other projects. Projects created with the bord4 analysis cookiecutter can pull directly from this repo.
 
+Theese templates are used by the [cookiecutter-bord4-analysis](https://github.com/BergensTidende/cookiecutter-bord4-analysis) project.
 ### Requirements
 
 ---
