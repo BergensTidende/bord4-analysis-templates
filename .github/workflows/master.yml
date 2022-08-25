@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Zip Folder
-      run: zip -r src.zip src/
+      run: zip -r src.zip src/ -x src/extra**
     - name: Commit and push if it changed
       run: |-
         git config user.name "Automated"

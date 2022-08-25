@@ -97,6 +97,11 @@ brew install pipenv
     - for scripts used by the make file
   - `src/utils`
     - much needed utils functions. Like code for uploading to S3.
+  - `src/extra`
+    - add folders under here for less used functionality that don't need to come with every project
+    - install with make command
+    - `src/visvegen`
+      - Functions to work with Vegvesenet's VisVegen API
 
 ## Usage
 
