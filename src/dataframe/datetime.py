@@ -2,64 +2,106 @@
   Collection of utility functions to do with datetime for faster analysis
 """
 
-def split_into_ymd(_df, date_column):
+def add_ymd(_df, date_column):
     """Utility function to split a date column into year, month and day
 
     Args:
         __df (dataframe): The dataframe to split
-        date_column (_type_): The column to split
+        date_column (datetime): The column to split
 
     Returns:
         dataframe: The dataframe with the split columns
     """
 
-    _df[date_column] = _df[date_column].dt.year.fillna(0).astype('int')
-    _df[date_column] = _df[date_column].dt.month.fillna(0).astype('int')
-    _df[date_column] = _df[date_column].dt.day.fillna(0).astype('int')
+    _df["year"] = _df[date_column].dt.year.fillna(0).astype('int')
+    _df["month"] = _df[date_column].dt.month.fillna(0).astype('int')
+    _df["day"] = _df[date_column].dt.day.fillna(0).astype('int')
 
     return _df
 
 
-def split_into_hms(_df, date_column):
+def add_hms(_df, date_column):
     """Utility function to split a date column into hour, minute and second
 
     Args:
         __df (dataframe): The dataframe to split
-        date_column (_type_): The column to split
+        date_column (datetime): The column to split
 
     Returns:
         dataframe: The dataframe with the split columns
     """
 
-    _df[date_column] = _df[date_column].dt.hour.fillna(0).astype('int')
-    _df[date_column] = _df[date_column].dt.minute.fillna(0).astype('int')
-    _df[date_column] = _df[date_column].dt.second.fillna(0).astype('int')
+    _df["hour"] = _df[date_column].dt.hour.fillna(0).astype('int')
+    _df["minute"] = _df[date_column].dt.minute.fillna(0).astype('int')
+    _df["second"] = _df[date_column].dt.second.fillna(0).astype('int')
 
     return _df
 
 
-def add_month_name(_df, month_col="month", short_name=False, start_index=1):
+def add_month_name(_df, date_column, locale="no_NO"):
     """
     Utility function to add the month name to a dataframe
 
     Args:
         _df (dataframe): the dataframe to add the month name to
-        month_col (str, optional): The month column. Defaults to "month".
-        short_name (bool, optional): should we use short month name?. Defaults to False.
-        start_index (int, optional): The numner for January. Defaults to 1.
+        date_column (datetime): The column with the date
+        locale (str, optional): Locale to use, defualts to no_NO.
 
     Returns:
         dataframe: the dataframe with the month name added
     """
-    lst_month = ["januar", "februar", "mars", "april", "mai", "juni",
-                 "juli", "august", "september", "oktober", "novemeber", "desember"]
+    
+    _df["month_name"] = _df[date_column].dt.month_name(locale=locale).fillna("")
 
-    if short_name:
-        lst_month = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
+    return _df
 
-    if start_index == 1:
-        lst_month.insert(0, "")
+def add_week_day(_df, date_column):
+    """Utility function to add the week day to a dataframe
 
-    _df["month_name"] = _df[month_col].apply(lambda x: lst_month[int(x)])
+    Args:
+        _df (dataframe): the dataframe to add the week day to
+        date_column (datetime): The column with the date
 
+    Returns:
+        dataframe: the dataframe with the week day added
+    """
+
+    _df["week_day"] = _df[date_column].dt.dayofweek.fillna(-1).astype('int')
+
+    return _df
+
+def add_week_number(_df, date_column):
+    """Utility function to add the week number to a dataframe
+
+    Args:
+        _df (dataframe): the dataframe to add the week number to
+        date_column (datetime): The column with the date
+
+    Returns:
+        dataframe: the dataframe with the week number added
+    """
+
+    _df["week_number"] = _df[date_column].dt.week.fillna(0).astype('int')
+
+    return _df
+
+def add_week_day_name(_df, date_column, locale="no_NO", nynorsk=False):
+    """Utility function to add the week day name to a dataframe
+
+    Args:
+        _df (dataframe): the dataframe to add the week day name to
+        date_column (datetime): The column with the date
+        locale (str, optional): Locale to use, defualts to no_NO.
+        nynorsk (bool, optional): Use nynorsk instead of bokmål if locale set to no_NO. Defaults to False.
+
+    Returns:
+        dataframe: the dataframe with the week day name added
+    """
+
+    _df["week_day_name"] = _df[date_column].dt.day_name(locale=locale).fillna("")
+    
+    if locale == "no_NO" and nynorsk:
+      nynorsk_week_days = {"Mandag": "Måndag", "Tirsdag": "Tysdag", "Lørdag": "Laurdag", "Søndag": "Sundag"}
+      _df = _df.replace({"week_day_name": nynorsk_week_days})
+    
     return _df

@@ -27,7 +27,7 @@ def format_number(x):
     num_str = str(x)
     decimal_mark_in = '.'
     decimal_mark_out = ','
-    thousands_delimiter = ' '
+    thousands_delimiter = '.'
 
     sign = ''
     fraction = ''
