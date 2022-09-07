@@ -12,7 +12,6 @@ def is_number(s):
     except ValueError:
         return False
 
-
 def format_number(x):
     """
     Utility function to format a number to a string with thousands separators and decimals
