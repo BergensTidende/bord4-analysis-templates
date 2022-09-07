@@ -3,7 +3,6 @@
 .vscode/
 .ipynb_checkpoints/
 *.todo
-src.zip
 
 scratch/
 !scratch/.gitkeep
