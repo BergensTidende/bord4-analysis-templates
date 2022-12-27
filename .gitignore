@@ -29,3 +29,4 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+src.zip
