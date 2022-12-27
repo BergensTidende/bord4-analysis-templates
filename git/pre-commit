@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# save and change IFS
+OLDIFS=$IFS
+IFS=$'\n'
+
+# Get a list of files in the index excluding deleted files
+file_list=$(git diff --cached --name-only| grep -E '\.(ipynb)$')
+
+for file in $file_list
+do
+  pipenv run jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace "$file"
+  if [ $? -ne 0 ]; then
+    echo "Jupyter convert failed on staged file '$file'."
+    exit 1 # exit with failure status
+  fi
+done
+
+# restore it
+IFS=$OLDIFS
