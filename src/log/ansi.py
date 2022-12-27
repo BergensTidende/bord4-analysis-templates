@@ -2,6 +2,7 @@
 '''
 This module generates ANSI character codes to printing colors to terminals.
 See: http://en.wikipedia.org/wiki/ANSI_escape_code
+
 '''
 
 CSI = '\033['
