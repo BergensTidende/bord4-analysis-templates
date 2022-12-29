@@ -1,5 +1,3 @@
-.PHONY: lint lab new
-
 #################################################################################
 # GLOBALS                                                                       #
 #################################################################################
@@ -12,19 +10,53 @@ PYTHON_INTERPRETER = python
 # COMMANDS                                                                      #
 #################################################################################
 
-## Lint using black
-lint:
-	black src
-
 ## Run Jupyter lab
+.PHONY: lab
 lab:
-	pipenv run jupyter lab
+	poetry run jupyter lab
 
 ## Create new template file from generic-header
+.PHONY: new
 new:
 	@read -p "Enter file name for the new template:" filename; \
 	cp templates/generic-header.ipynb templates/$$filename.ipynb; \
 	echo "Created templates/$$filename.ipynb"
+
+##@ Formatting
+.PHONY: format-black
+format-black: ## black (code formatter)
+	@black src
+
+.PHONY: format-isort
+format-isort: ## isort (import formatter)
+	@isort src
+
+.PHONY: format
+format: format-black format-isort ## run all formatters
+
+##@ Linting
+.PHONY: lint-black
+lint-black: ## black in linting mode
+	@black . --check
+
+.PHONY: lint-isort
+lint-isort: ## isort in linting mode
+	@isort src --check
+
+.PHONY: lint-flake8
+lint-flake8: ## flake8 (linter)
+	@flake8 src
+
+.PHONY: lint-mypy
+lint-mypy: ## mypy (static-type checker)
+	@mypy --config-file pyproject.toml src
+
+.PHONY: lint-mypy-report
+lint-mypy-report: ## run mypy & create report
+	@mypy --config-file pyproject.toml src --html-report ./mypy_html
+
+lint: lint-black lint-isort lint-flake8 lint-mypy ## run all linters
+
 
 #################################################################################
 # Self Documenting Commands                                                     #

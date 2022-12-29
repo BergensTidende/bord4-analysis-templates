@@ -1,4 +1,9 @@
-def is_number(s):
+from typing import Union
+
+import pandas as pd
+
+
+def is_number(s: Union[float, int, str, bool]) -> bool:
     """Utility function to check if a string is a number
     Args:
         s (unknown): the variable to check
@@ -12,10 +17,12 @@ def is_number(s):
     except ValueError:
         return False
 
-def format_number(x):
+
+def format_number(x: Union[float, int]) -> str:
     """
-    Utility function to format a number to a string with thousands separators and decimals
-      according to Bergens Tidende's format.
+    Utility function to format a number to a string with
+    thousands separators and decimals according
+    to Bergens Tidende's format.
 
     Args:
         x (number): the number to format
@@ -24,15 +31,15 @@ def format_number(x):
         str: the formatted number as a string
     """
     num_str = str(x)
-    decimal_mark_in = '.'
-    decimal_mark_out = ','
-    thousands_delimiter = '.'
+    decimal_mark_in = "."
+    decimal_mark_out = ","
+    thousands_delimiter = "."
 
-    sign = ''
-    fraction = ''
+    sign = ""
+    fraction = ""
 
     # If num_str is signed, store the sign and remove it.
-    if num_str[0] == '+' or num_str[0] == '-':
+    if num_str[0] == "+" or num_str[0] == "-":
         sign = num_str[0]
         num_str = num_str[1:]
 
@@ -40,7 +47,7 @@ def format_number(x):
     # Note that find() will return -1 if the substring is not found.
     dec_mark_pos = num_str.find(decimal_mark_in)
     if dec_mark_pos >= 0:
-        fraction = decimal_mark_out + num_str[dec_mark_pos + 1:]
+        fraction = decimal_mark_out + num_str[dec_mark_pos + 1 :]
         num_str = num_str[:dec_mark_pos]
 
     if is_number(num_str) and len(num_str) >= 5:
@@ -54,10 +61,12 @@ def format_number(x):
     return sign + num_str + fraction
 
 
-def format_number_column(_df, column_name):
+def format_number_column(  # type: ignore[no-any-unimported]
+    _df: pd.DataFrame, column_name: str
+) -> pd.DataFrame:
     """
-      Utility function to format a column of numbers to a string with thousands separators and decimals
-      according to Bergens Tidende's format.
+      Utility function to format a column of numbers to a string with
+      thousands separators and decimals according to Bergens Tidende's format.
 
       The formatted colmun will be addeed with at _fmt suffix.
 
