@@ -32,27 +32,29 @@ Rewriting code is tedious, meaningless and boring. To counter act this horror we
 
 Theese templates are used by the [cookiecutter-bord4-analysis](https://github.com/BergensTidende/cookiecutter-bord4-analysis) project.
 
-Inspiration for the makefile and potery-file is taken from Johannes Schmidt's series ["Setting up Python Projects"](https://johschmidt42.medium.com/setting-up-python-projects-part-i-408603868c08)
-
 ### Requirements
 
 ---
 
 - pyenv - manage python versions
-- pipenv - manage python dependencies
+- poetry - manage python dependencies
 
 To install on mac you can use homebrew:
 
 ```bash
 brew upgrade
 brew install pyenv
-brew install pipenv
 ```
+
+You can either install poetry with homebrew or the way described in the [documentation](https://python-poetry.org/docs/#installation)
+
 
 ### Makefile commands
 
 - `make lint`
-  - lint the code in the src folder
+  - lint the code in the src folder with black, isort and flake8. Mypy will check for correct typing. Black will also check the jupyter notebooks.
+- `make format`
+  - format the code in the src folder with black and isort. Black will also format the jupyter notebooks.
 - `make lab`
   - run jupyter lab
 - `make new`
@@ -62,17 +64,26 @@ brew install pipenv
 
 ```
 .
+├── .editorconfig
+├── .flake8
+├── pyproject.toml
 ├── README.md
 ├── data
 │   ├── processed
 │   ├── public
 │   ├── source
 │   └── untracked
-├── etl
-├── src
+├── etl -> templates
+├── git
 └── templates
 ```
 
+- `.editorconfig`
+  - Configuration file for editorconfig.
+- `.flake8`
+  - Configuration file for flake8.
+- `pyproject.toml`
+  - Configuration file for poetry. Mypy and isort is configured here.
 - `README.md`
   - This file.
 - `data`
@@ -88,36 +99,22 @@ brew install pipenv
     - Files that are either to large or to sensitive to be on github goes here.
 - etl
   - symlinked to templates. In a real world project notebooks in other directories will fetch from scripts in etl. 
+- git
+  - git hooks
 - src
   - Python files used as utils that can be imported from notebooks and script.
-  - `src/dataframe`
-    - util functions for working with dataframes
-  - `src/integration`
-    - helper functions when working with Schibsted MM API
-  - `src/log`
-    - better log functions
-  - `src/scripts`
-    - for scripts used by the make file
-  - `src/utils`
-    - much needed utils functions. Like code for uploading to S3.
-  - `src/extra`
-    - add folders under here for less used functionality that don't need to come with every project
-    - install with make command
-    - `src/visvegen`
-      - Functions to work with Vegvesenet's VisVegen API
-
 ## Usage
 
 To play around with the templates and code in src you must first install the virtual enviroment.
 
 ```bash
-pipenv install
+poetry install
 ```
 
 And the run jupyter lab
 
 ```bash
-pipenv run jupyter lab
+make lab
 ```
 
 ## Contributing
@@ -125,7 +122,7 @@ pipenv run jupyter lab
 Do you have write permissions to the repo? Then you can clone this project to a folder on your computer.
 
 ```bash
-git clone this.template-repo
+git clone https://github.com/BergensTidende/bord4-analysis-templates
 ```
 
 If not do the following:
