@@ -30,3 +30,4 @@ var/
 .installed.cfg
 *.egg
 src.zip
+/src.zip
