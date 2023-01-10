@@ -9,7 +9,7 @@ file_list=$(git diff --cached --name-only| grep -E '\.(ipynb)$')
 
 for file in $file_list
 do
-  pipenv run jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace "$file"
+  poetry run jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace "$file"
   if [ $? -ne 0 ]; then
     echo "Jupyter convert failed on staged file '$file'."
     exit 1 # exit with failure status

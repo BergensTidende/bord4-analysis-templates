@@ -4,6 +4,7 @@
 .ipynb_checkpoints/
 *.todo
 *.csv
+*.log
 
 scratch/
 !scratch/.gitkeep
@@ -38,3 +39,5 @@ __pycache__/*
 
 .mypy_cache
 .mypy_cache/*
+
+integrations.json
