@@ -2070,6 +2070,24 @@ files = [
 attrs = ">=19.2.0"
 
 [[package]]
+name = "owslib"
+version = "0.27.2"
+description = "OGC Web Service utility library"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "OWSLib-0.27.2-py2.py3-none-any.whl", hash = "sha256:6ab36f01aa3f16d978807343886783080ca5d8ec2e72fe30f55bf2aefafee71c"},
+    {file = "OWSLib-0.27.2.tar.gz", hash = "sha256:e102aa2444dfe0c8439ab1e1776cc0fa47cea28c09b8a28212c893c6017c179b"},
+]
+
+[package.dependencies]
+python-dateutil = ">=1.5"
+pytz = "*"
+pyyaml = "*"
+requests = ">=1.0"
+
+[[package]]
 name = "packaging"
 version = "22.0"
 description = "Core utilities for Python packages"
@@ -3533,4 +3551,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "2c0e8869f8a700eafc38e56564f2bb78a8a69dab02e00a9ddd68a74aab481576"
+content-hash = "8f5080488366d9dfce485c72fa3cec28710b2810bcb748bc792198d304b97cba"

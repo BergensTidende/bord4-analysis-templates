@@ -9,6 +9,8 @@
 scratch/
 !scratch/.gitkeep
 
+data/processed/
+!data/proceessed/.gitkeep
 data/untracked
 !data/untracked/.gitkeep
 
