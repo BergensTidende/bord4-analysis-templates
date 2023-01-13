@@ -299,6 +299,21 @@ urllib3 = ">=1.25.4,<1.27"
 crt = ["awscrt (==0.15.3)"]
 
 [[package]]
+name = "branca"
+version = "0.6.0"
+description = "Generate complex HTML+JS pages with Python"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "branca-0.6.0-py3-none-any.whl", hash = "sha256:ae706fc7a88dd0296a58bb11c0cb3c6be358491a3b0abee08fe16b4db17814c0"},
+    {file = "branca-0.6.0.tar.gz", hash = "sha256:55949855214504c7583b71b9a03a84dce2e96a84027613bb53b42d04844ce24e"},
+]
+
+[package.dependencies]
+jinja2 = "*"
+
+[[package]]
 name = "bump2version"
 version = "1.0.1"
 description = "Version-bump your software with a single command!"
@@ -817,6 +832,27 @@ files = [
 mccabe = ">=0.7.0,<0.8.0"
 pycodestyle = ">=2.10.0,<2.11.0"
 pyflakes = ">=3.0.0,<3.1.0"
+
+[[package]]
+name = "folium"
+version = "0.14.0"
+description = "Make beautiful maps with Leaflet.js & Python"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "folium-0.14.0-py2.py3-none-any.whl", hash = "sha256:c894e2c029a8ca40e043a311978a895cefe32d746a94263f807dd7b6b2e9c679"},
+    {file = "folium-0.14.0.tar.gz", hash = "sha256:8ec44697d18f5932e0fdaee8b19da98625de4d0e72cb30ef56f9479f18e11b9f"},
+]
+
+[package.dependencies]
+branca = ">=0.6.0"
+jinja2 = ">=2.9"
+numpy = "*"
+requests = "*"
+
+[package.extras]
+testing = ["pytest"]
 
 [[package]]
 name = "fonttools"
@@ -1583,6 +1619,29 @@ htmlsoup = ["BeautifulSoup4"]
 source = ["Cython (>=0.29.7)"]
 
 [[package]]
+name = "mapclassify"
+version = "2.4.3"
+description = "Classification Schemes for Choropleth Maps."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "mapclassify-2.4.3-py3-none-any.whl", hash = "sha256:dde0218d873b4778319387a10621cc97017a5c2533a48e68c39cb8d680c91846"},
+    {file = "mapclassify-2.4.3.tar.gz", hash = "sha256:51b81e1f1ee7f64a4ca1e9f61f01216c364a3f086a48b1be38eb057199cb19bf"},
+]
+
+[package.dependencies]
+networkx = "*"
+numpy = ">=1.3"
+pandas = ">=1.0"
+scikit-learn = "*"
+scipy = ">=1.0"
+
+[package.extras]
+docs = ["numpydoc", "sphinx (>=1.4.3)", "sphinx-bootstrap-theme", "sphinx-gallery", "sphinxcontrib-bibtex"]
+tests = ["codecov", "geopandas", "libpysal", "networkx", "palettable", "pytest", "pytest-cov"]
+
+[[package]]
 name = "markupsafe"
 version = "2.1.1"
 description = "Safely add untrusted strings to HTML/XML markup."
@@ -1947,6 +2006,25 @@ files = [
 ]
 
 [[package]]
+name = "networkx"
+version = "3.0"
+description = "Python package for creating and manipulating graphs and networks"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "networkx-3.0-py3-none-any.whl", hash = "sha256:58058d66b1818043527244fab9d41a51fcd7dcc271748015f3c181b8a90c8e2e"},
+    {file = "networkx-3.0.tar.gz", hash = "sha256:9a9992345353618ae98339c2b63d8201c381c2944f38a2ab49cb45a4c667e412"},
+]
+
+[package.extras]
+default = ["matplotlib (>=3.4)", "numpy (>=1.20)", "pandas (>=1.3)", "scipy (>=1.8)"]
+developer = ["mypy (>=0.991)", "pre-commit (>=2.20)"]
+doc = ["nb2plots (>=0.6)", "numpydoc (>=1.5)", "pillow (>=9.2)", "pydata-sphinx-theme (>=0.11)", "sphinx (==5.2.3)", "sphinx-gallery (>=0.11)", "texext (>=0.6.7)"]
+extra = ["lxml (>=4.6)", "pydot (>=1.4.2)", "pygraphviz (>=1.10)", "sympy (>=1.10)"]
+test = ["codecov (>=2.1)", "pytest (>=7.2)", "pytest-cov (>=4.0)"]
+
+[[package]]
 name = "notebook"
 version = "6.5.2"
 description = "A web-based notebook environment for interactive computing"
@@ -2036,6 +2114,23 @@ files = [
     {file = "numpy-1.24.1-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:cfa1161c6ac8f92dea03d625c2d0c05e084668f4a06568b77a25a89111621566"},
     {file = "numpy-1.24.1.tar.gz", hash = "sha256:2386da9a471cc00a1f47845e27d916d5ec5346ae9696e01a8a34760858fe9dd2"},
 ]
+
+[[package]]
+name = "nvdbapi-v3"
+version = "1.0.0"
+description = "\"Read data from Norwegian government road database NVDB api https://nvdbapiles-v3.atlas.vegvesen.no/dokumentasjon\""
+category = "main"
+optional = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "nvdbapi-v3-1.0.0.tar.gz", hash = "sha256:75cf860fc18b6fa34b91b29efdad03efdda42b574876f731951d88b9750170c5"},
+    {file = "nvdbapi_v3-1.0.0-py3-none-any.whl", hash = "sha256:8c0989145e9b839b31be5425db9afdd712ffafd4920bef79896620d7b038ea73"},
+]
+
+[package.dependencies]
+python-dateutil = ">=2.8,<3.0"
+requests = ">=2.28,<3.0"
+urllib3 = ">=1.26.4,<2.0.0"
 
 [[package]]
 name = "oauthlib"
@@ -3551,4 +3646,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "8f5080488366d9dfce485c72fa3cec28710b2810bcb748bc792198d304b97cba"
+content-hash = "979fea09694148a92ec66af5ab816bb26794edf1816559f736b2b9d574fb85c8"
