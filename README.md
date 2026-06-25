@@ -1,161 +1,159 @@
-# Bord4 Data Analysis Templates
+# Bord4 Analysis Templates
 
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#requirements">Requirements</a></li>
-        <li><a href="#structure">Structure</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
+Dette repoet samler notebook- og Python-maler som brukes av
+`cookiecutter-bord4-analysis` og den nye `b4-analysis-vibecoding-project`-malen.
+Bruk `b4-analysis-vibecoding-project` som anbefalt prosjektmal for nye
+analyseprosjekter. Dette repoet er fortsatt kilden til gjenbrukbare
+analyseoppskrifter, ikke en generell prosjektmal.
 
-<!-- ABOUT THE PROJECT -->
+## Krav
 
-## About The Project
+- `pyenv` for Python-versjoner
+- `uv` for avhengigheter, virtuelle miljø og kjøring av verktøy
+- `pakkenellik>=0.2.1` er minimum for malene
 
-Rewriting code is tedious, meaningless and boring. To counter act this horror we collect our best code snippets in this repo to be used in other projects. Projects created with the bord4 analysis cookiecutter can pull directly from this repo.
-
-Theese templates are used by the [cookiecutter-bord4-analysis](https://github.com/BergensTidende/cookiecutter-bord4-analysis) project.
-
-### Requirements
-
----
-
-- pyenv - manage python versions
-- poetry - manage python dependencies
-
-To install on mac you can use homebrew:
+Installer på macOS med Homebrew:
 
 ```bash
 brew upgrade
-brew install pyenv
+brew install pyenv uv
 ```
 
-You can either install poetry with homebrew or the way described in the [documentation](https://python-poetry.org/docs/#installation)
+## Kom i gang
 
-
-### Makefile commands
-
-- `make lint`
-  - lint the code in the src folder with black, isort and flake8. Mypy will check for correct typing. Black will also check the jupyter notebooks.
-- `make format`
-  - format the code in the src folder with black and isort. Black will also format the jupyter notebooks.
-- `make lab`
-  - run jupyter lab
-- `make new`
-  - creates a new template notebook by copying generic header
-
-### Structure
-
-```
-.
-├── .editorconfig
-├── .flake8
-├── pyproject.toml
-├── README.md
-├── data
-│   ├── processed
-│   ├── public
-│   ├── source
-│   └── untracked
-├── etl -> templates
-├── git
-└── templates
-```
-
-- `.editorconfig`
-  - Configuration file for editorconfig.
-- `.flake8`
-  - Configuration file for flake8.
-- `pyproject.toml`
-  - Configuration file for poetry. Mypy and isort is configured here.
-- `README.md`
-  - This file.
-- `data`
-  - This is the directory used for storing and saving data, mirrored from the cookiecutter-bord4-analysis structure
-  - `data/processed`
-    - Contains data that has either been transformed from an `etl` script or output from an `analysis` jupyter notebook.
-    - Data that has been transformed from an `etl` script will follow a naming convention: `etl_{file_name}.[csv,json...]`
-  - `data/public`
-    - Public-facing data files go here - data files which are 'live'.
-  - `data/source``
-    - Raw untouched data. Data in this folder should never be altered
-  - `data/untracked`
-    - Files that are either to large or to sensitive to be on github goes here.
-- etl
-  - symlinked to templates. In a real world project notebooks in other directories will fetch from scripts in etl. 
-- git
-  - git hooks
-- src
-  - Python files used as utils that can be imported from notebooks and script.
-## Usage
-
-To play around with the templates and code in src you must first install the virtual enviroment.
+Installer avhengigheter:
 
 ```bash
-poetry install
+uv sync
 ```
 
-And the run jupyter lab
+Base-avhengighetene er holdt relativt lette. Tunge eller spesialiserte
+avhengigheter installeres etter behov, styrt av malen du bruker:
+
+```bash
+uv sync --group gis
+uv sync --group nvdb
+uv sync --group gsheet
+uv sync --group scraping
+uv sync --group publish
+uv sync --group ssb
+uv sync --group viz
+```
+
+Start Jupyter Lab:
 
 ```bash
 make lab
 ```
 
-## Contributing
-
-Do you have write permissions to the repo? Then you can clone this project to a folder on your computer.
+Lag en ny notebook-mal fra felles header:
 
 ```bash
-git clone https://github.com/BergensTidende/bord4-analysis-templates
+make new
 ```
 
-If not do the following:
+## Make-kommandoer
 
-- Create a personal fork of the project on Github.
-- Clone the fork on your local machine. Your remote repo on Github is called `origin`.
-- Add the original repository as a remote called `upstream`.
-- If you created your fork a while ago be sure to pull upstream changes into your local repository.
+- `make sync`: installer avhengigheter med `uv`
+- `make lab`: start Jupyter Lab med `uv run`
+- `make new`: kopier `templates/generic-header.ipynb` til en ny mal
+- `make format`: formater Python-filer og notebooks med Ruff
+- `make lint`: kjør Ruff og mypy
 
-This will clone the repo into `bord4-analysis-templates`. 
+## Struktur
 
-Create a branch for your changes
+```text
+.
+├── data
+│   ├── processed
+│   ├── public
+│   ├── source
+│   └── untracked
+├── git
+├── src
+├── templates
+├── templates.toml
+├── Makefile
+├── pyproject.toml
+├── README.md
+└── uv.lock
+```
+
+- `templates`: notebook- og scriptmaler som kan kopieres inn i prosjekter.
+- `templates.toml`: maskinlesbar oversikt over maler, destination, suggested_name og dependencies per mal.
+- `data/source`: rådata som ikke skal endres.
+- `data/processed`: transformerte filer fra ETL eller analyse.
+- `data/public`: filer som publiseres eller brukes direkte ut mot lesere.
+- `data/untracked`: store eller sensitive filer som ikke skal inn i git.
+- `src`: lokale Python-hjelpere som kan importeres fra notebooks.
+- `git`: git-hooks, blant annet hook for å fjerne notebook-output før commit.
+- `CLAUDE.md`: agentrettet dokumentasjon for hvordan template-kontrakten skal tolkes.
+
+I nye analyseprosjekter er anbefalt standard én `notebooks/`-mappe:
+
+```text
+notebooks/
+├── 01-etl-read-data.ipynb
+├── 02-eda-quick-check.ipynb
+└── 03-publish-datawrapper.ipynb
+```
+
+Template-kilden er flat i `templates/`, med fagprefix i filnavnet.
+`templates.toml` forteller hvilken mappe filen skal kopieres til og hvilket
+navn den bør få i et analyseprosjekt.
+
+## Maler
+
+ETL-maler:
+
+- `etl-read-csv.ipynb`: les CSV fra URL eller fil og lagre behandlet CSV.
+- `etl-read-excel.ipynb`: les Excel-ark, rydd kolonnenavn og lagre CSV.
+- `etl-api-json.ipynb`: hent JSON fra API, normaliser og håndter enkel pagination.
+- `etl-clean-join.ipynb`: slå sammen to datasett og sjekk join-dekning.
+- `etl-manual-data.ipynb`: bygg et lite manuelt datasett direkte i notebook.
+- `etl-gsheet.ipynb`: les fra og skriv til Google Sheets.
+- `etl-screen-scraping.ipynb`: hent tabeller fra nettsider med Selenium og BeautifulSoup.
+- `etl-gis.ipynb`: hent geodata fra WFS og konverter til GeoJSON.
+- `etl-nvdb.ipynb`: hent data fra NVDB.
+- `etl-einnsyn.ipynb`: hent journalposter fra Einnsyn.
+
+EDA-maler:
+
+- `eda-quick-check.ipynb`: rask førstesjekk av struktur, mangler, duplikater og fordelinger.
+- `eda-relationship-check.ipynb`: sjekk om to datasett henger sammen etter join.
+- `eda-pairplot.ipynb`: rask pairplot og korrelasjonsmatrise for numeriske kolonner.
+- `eda-compare-groups.ipynb`: sammenlign grupper med tabell, boxplot og stripplot.
+- `eda-distribution.ipynb`: sjekk fordeling, percentiler og outliers i én variabel.
+- `eda-ranking.ipynb`: lag rangeringer og visualiser topp/bunn.
+- `eda-before-after.ipynb`: sammenlign samme enheter før og etter en hendelse.
+- `eda-time-series.ipynb`: rask tidsseriesjekk med rolling average og siste verdier.
+- `eda-ssb.ipynb`: analyser data hentet fra SSB API.
+- `eda-nvdb.ipynb`: kartlegg behandlet NVDB-data.
+- `eda-linechart-array.ipynb`: lag små multiple linecharts.
+
+Publiseringsmaler:
+
+- `publish-datawrapper-table.ipynb`: publiser en enkel Datawrapper-tabell.
+- `publish-datawrapper-mm.ipynb`: lag og publiser Datawrapper-graf med integrasjon.
+- `publish-datawrapper-update.ipynb`: oppdater eksisterende Datawrapper-chart.
+
+`templates.toml` er fasiten for hvor en mal skal kopieres i et prosjekt, hva den
+bør hete der og hvilke dependencies den trenger. Oppdater den når en mal får nye
+imports eller slutter å trenge en avhengighet.
+
+## Bidra
+
+Opprett en branch, gjør endringen, kjør formattering og lint, og åpne PR:
 
 ```bash
 git checkout -b name-of-branch
+make format
+make lint
 ```
 
-Make your changes, rememeber to commit. And always write your commit messages in the present tense. Your commit message should describe what the commit, when applied, does to the code – not what you did to the code.
+Skriv commit-meldinger i presens og beskriv hva commit-en gjør når den blir
+brukt.
 
-If you're working on a clone push the branch to github and make PR.
-
-If your're working a fork:
-
-- Squash your commits into a single commit with git's [interactive rebase](https://help.github.com/articles/interactive-rebase). Create a new branch if necessary.
-- Push your branch to your fork on Github, the remote `origin`.
-- From your fork open a pull request in the correct branch. Target the project's `develop` branch if there is one, else go for `master`!
-- …
-- If the maintainer requests further changes just push them to your branch. The PR will be updated automatically.
-- Once the pull request is approved and merged you can pull the changes from `upstream` to your local repo and delete
-  your extra branch(es).
-
- <!-- CONTACT -->
-
-## Contact
+## Kontakt
 
 Bord4 - bord4@bt.no

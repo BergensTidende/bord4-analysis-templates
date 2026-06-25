@@ -1,33 +1,17 @@
-# Post spørring og få Pandas dataframe i retur
-# benytter biblioteket pyjstat for JSON-stat
+"""Small SSB helper used by the SSB notebook template."""
 
-import requests
-from pyjstat import pyjstat
+from __future__ import annotations
 
-# Demo: Salmon export
-POST_URL = "https://data.ssb.no/api/v0/no/table/03024"
+import pandas as pd
+from pakkenellik.ssb import get_municipality_population
 
 
-def fetch_data():
-    # API spørring, kan tas fra Konsoll  - fryst og fersk laks siste 53 uker
-    payload = {
-        "query": [
-            {
-                "code": "VareGrupper2",
-                "selection": {"filter": "item", "values": ["01", "02"]},
-            },
-            {
-                "code": "ContentsCode",
-                "selection": {"filter": "item", "values": ["Vekt", "Kilopris"]},
-            },
-            {"code": "Tid", "selection": {"filter": "top", "values": ["53"]}},
-        ],
-        "response": {"format": "json-stat2"},
-    }
-
-    resultat = requests.post(POST_URL, json=payload)
-
-    dataset = pyjstat.Dataset.read(resultat.text)
-    df = dataset.write("dataframe")
-
-    return df
+def fetch_population(
+    years: list[int] | None = None,
+    municipality_ids: list[str] | None = None,
+) -> pd.DataFrame:
+    """Fetch municipality population from SSB table 11342."""
+    return get_municipality_population(
+        years=years or [2024, 2025, 2026],
+        municipality_ids=municipality_ids,
+    )

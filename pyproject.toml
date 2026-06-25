@@ -1,45 +1,76 @@
-[tool.poetry]
+[project]
 name = "bord4-analysis-templates"
 version = "0.1.0"
 description = "Project used to hold templates for the bord4 analysis cookiecutter"
-authors = ["Lasse Lambrechts <lasse.lambrechts@bt.no>"]
-homepage = "https://github.com/BergensTidende/bord4-analysis-templates"
+authors = [{ name = "Lasse Lambrechts", email = "lasse.lambrechts@bt.no" }]
 readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "jupyterlab>=3.5.2",
+    "numpy>=1.23.0",
+    "openpyxl>=3.1.0",
+    "pakkenellik>=0.2.1",
+    "pandas>=1.5.2",
+    "python-dotenv>=0.21.0",
+    "requests>=2.28.1",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-boto3 = "^1.26.37"
-geopandas = "^0.12.2"
-jupyterlab = "^3.5.2"
-pandas = "^1.5.2"
-plotly = "^5.11.0"
-pyjstat = "^2.3.0"
-python-dotenv = "^0.21.0"
-requests = "^2.28.1"
-scikit-learn = "^1.2.0"
-#pakkenellik = {path = "../pakkenellik", develop = true}
-pakkenellik = "^0.1.5"
-matplotlib = "^3.6.2"
-beautifulsoup4 = "^4.11.1"
-cchardet = "^2.1.7"
-lxml = "^4.9.2"
-selenium = "^4.7.2"
-black = {extras = ["jupyter"], version = "^22.12.0"}
-owslib = "^0.27.2"
-fiona = "^1.8.22"
-nvdbapi-v3 = "^1.0.0"
-folium = "^0.14.0"
-mapclassify = "^2.4.3"
+[project.urls]
+Homepage = "https://github.com/BergensTidende/bord4-analysis-templates"
 
-[tool.poetry.group.lint.dependencies]
-isort = "^5.11.4"
-black = {extras = ["jupyter"], version = "^22.12.0"}
-flake8 = "^6.0.0"
-mypy = "^0.991"
-types-requests = "^2.28.11.7"
+[dependency-groups]
+dev = [
+    "mypy>=0.991",
+    "ruff>=0.6.0",
+    "types-requests>=2.28.11.7",
+]
+gis = [
+    "fiona>=1.8.22",
+    "folium>=0.14.0",
+    "geopandas>=0.12.2",
+    "mapclassify>=2.4.3",
+    "owslib>=0.27.2",
+    "pakkenellik[gis]>=0.2.1",
+]
+gsheet = [
+    "pakkenellik[gspread]>=0.2.1",
+]
+nvdb = [
+    "nvdbapi-v3>=1.0.0",
+    "pakkenellik[nvdb]>=0.2.1",
+]
+publish = [
+    "pakkenellik[datawrapper]>=0.2.1",
+]
+scraping = [
+    "beautifulsoup4>=4.11.1",
+    "lxml>=4.9.2",
+    "selenium>=4.7.2",
+]
+ssb = [
+    "pakkenellik[ssb]>=0.2.1",
+]
+viz = [
+    "matplotlib>=3.6.2",
+    "pakkenellik[viz]>=0.2.1",
+    "plotly>=5.11.0",
+    "seaborn>=0.13.0",
+]
 
-[tool.isort]
-profile = "black"
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"templates/*.ipynb" = ["E402", "F401", "F821"]
 
 [tool.mypy]
 # 3rd party import
@@ -65,8 +96,3 @@ warn_return_any = false
 warn_unreachable = true
 # Misc
 pretty = true
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

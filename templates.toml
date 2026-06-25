@@ -1,0 +1,129 @@
+[templates."generic-header.ipynb"]
+destination = "notebooks"
+suggested_name = "00-generic-header.ipynb"
+dependencies = ["pakkenellik>=0.2.1", "python-dotenv", "pandas", "numpy"]
+
+[templates."etl-read-csv.ipynb"]
+destination = "notebooks"
+suggested_name = "01-etl-read-csv.ipynb"
+dependencies = ["pakkenellik>=0.2.1", "python-dotenv", "pandas", "numpy"]
+
+[templates."etl-read-excel.ipynb"]
+destination = "notebooks"
+suggested_name = "01-etl-read-excel.ipynb"
+dependencies = ["pakkenellik>=0.2.1", "python-dotenv", "pandas", "numpy", "openpyxl"]
+
+[templates."etl-api-json.ipynb"]
+destination = "notebooks"
+suggested_name = "01-etl-api-json.ipynb"
+dependencies = ["pakkenellik>=0.2.1", "python-dotenv", "pandas", "numpy", "requests"]
+
+[templates."etl-clean-join.ipynb"]
+destination = "notebooks"
+suggested_name = "01-etl-clean-join.ipynb"
+dependencies = ["pakkenellik>=0.2.1", "python-dotenv", "pandas", "numpy"]
+
+[templates."etl-manual-data.ipynb"]
+destination = "notebooks"
+suggested_name = "01-etl-manual-data.ipynb"
+dependencies = ["pakkenellik>=0.2.1", "python-dotenv", "pandas", "numpy"]
+
+[templates."etl-gsheet.ipynb"]
+destination = "notebooks"
+suggested_name = "01-etl-gsheet.ipynb"
+dependencies = ["pakkenellik[gspread]>=0.2.1", "python-dotenv", "pandas", "numpy"]
+
+[templates."etl-screen-scraping.ipynb"]
+destination = "notebooks"
+suggested_name = "01-etl-screen-scraping.ipynb"
+dependencies = ["pakkenellik>=0.2.1", "python-dotenv", "pandas", "beautifulsoup4", "lxml", "selenium"]
+
+[templates."etl-gis.ipynb"]
+destination = "notebooks"
+suggested_name = "01-etl-gis.ipynb"
+dependencies = ["pakkenellik[gis]>=0.2.1", "python-dotenv", "pandas", "numpy", "geopandas", "owslib"]
+
+[templates."etl-nvdb.ipynb"]
+destination = "notebooks"
+suggested_name = "01-etl-nvdb.ipynb"
+dependencies = ["pakkenellik[nvdb]>=0.2.1", "python-dotenv", "pandas", "geopandas", "nvdbapi-v3"]
+
+[templates."etl-einnsyn.ipynb"]
+destination = "notebooks"
+suggested_name = "01-etl-einnsyn.ipynb"
+dependencies = ["pakkenellik>=0.2.1", "python-dotenv", "pandas", "numpy", "requests"]
+
+[templates."etl_ssb_api.py"]
+destination = "src"
+suggested_name = "ssb_population.py"
+dependencies = ["pakkenellik[ssb]>=0.2.1", "pandas"]
+
+[templates."eda-quick-check.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-quick-check.ipynb"
+dependencies = ["pakkenellik>=0.2.1", "python-dotenv", "pandas", "numpy"]
+
+[templates."eda-relationship-check.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-relationship-check.ipynb"
+dependencies = ["pakkenellik[viz]>=0.2.1", "python-dotenv", "pandas", "numpy", "matplotlib", "seaborn"]
+
+[templates."eda-pairplot.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-pairplot.ipynb"
+dependencies = ["pakkenellik[viz]>=0.2.1", "python-dotenv", "pandas", "numpy", "matplotlib", "seaborn"]
+
+[templates."eda-compare-groups.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-compare-groups.ipynb"
+dependencies = ["pakkenellik[viz]>=0.2.1", "python-dotenv", "pandas", "numpy", "matplotlib", "seaborn"]
+
+[templates."eda-distribution.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-distribution.ipynb"
+dependencies = ["pakkenellik[viz]>=0.2.1", "python-dotenv", "pandas", "numpy", "matplotlib", "seaborn"]
+
+[templates."eda-ranking.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-ranking.ipynb"
+dependencies = ["pakkenellik[ssb]>=0.2.1", "pakkenellik[viz]>=0.2.1", "python-dotenv", "pandas", "numpy", "matplotlib", "seaborn"]
+
+[templates."eda-before-after.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-before-after.ipynb"
+dependencies = ["pakkenellik[viz]>=0.2.1", "python-dotenv", "pandas", "numpy", "matplotlib", "seaborn"]
+
+[templates."eda-time-series.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-time-series.ipynb"
+dependencies = ["pakkenellik[viz]>=0.2.1", "python-dotenv", "pandas", "numpy", "matplotlib", "seaborn"]
+
+[templates."eda-ssb.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-ssb.ipynb"
+dependencies = ["pakkenellik[ssb]>=0.2.1", "python-dotenv", "pandas", "numpy"]
+
+[templates."eda-nvdb.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-nvdb.ipynb"
+dependencies = ["pakkenellik[gis]>=0.2.1", "python-dotenv", "pandas", "geopandas"]
+
+[templates."eda-linechart-array.ipynb"]
+destination = "notebooks"
+suggested_name = "02-eda-linechart-array.ipynb"
+dependencies = ["pakkenellik[viz]>=0.2.1", "python-dotenv", "pandas", "geopandas", "matplotlib"]
+
+[templates."publish-datawrapper-table.ipynb"]
+destination = "notebooks"
+suggested_name = "03-publish-datawrapper-table.ipynb"
+dependencies = ["pakkenellik[datawrapper]>=0.2.1", "python-dotenv", "pandas", "numpy"]
+
+[templates."publish-datawrapper-mm.ipynb"]
+destination = "notebooks"
+suggested_name = "03-publish-datawrapper-mm.ipynb"
+dependencies = ["pakkenellik[datawrapper]>=0.2.1", "python-dotenv", "pandas", "numpy", "matplotlib"]
+
+[templates."publish-datawrapper-update.ipynb"]
+destination = "notebooks"
+suggested_name = "03-publish-datawrapper-update.ipynb"
+dependencies = ["pakkenellik[datawrapper]>=0.2.1", "python-dotenv", "pandas"]

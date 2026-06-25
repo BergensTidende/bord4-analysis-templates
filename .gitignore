@@ -19,9 +19,12 @@ site/
 # Distribution / packaging
 .Python
 env/
+.venv/
+.uv-cache/
+.ruff_cache/
 build/
 develop-eggs/
-dist/ 
+dist/
 downloads/
 eggs/
 .eggs/

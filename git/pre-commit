@@ -3,16 +3,23 @@
 # save and change IFS
 OLDIFS=$IFS
 IFS=$'\n'
+UV_CACHE_DIR="${UV_CACHE_DIR:-.uv-cache}"
+export UV_CACHE_DIR
 
-# Get a list of files in the index excluding deleted files
-file_list=$(git diff --cached --name-only| grep -E '\.(ipynb)$')
+# Get staged notebooks, excluding deleted files.
+file_list=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.ipynb$')
 
 for file in $file_list
 do
-  poetry run jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace "$file"
+  uv run jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace "$file"
   if [ $? -ne 0 ]; then
     echo "Jupyter convert failed on staged file '$file'."
     exit 1 # exit with failure status
+  fi
+  git add "$file"
+  if [ $? -ne 0 ]; then
+    echo "Could not stage cleaned notebook '$file'."
+    exit 1
   fi
 done
 
