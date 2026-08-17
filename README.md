@@ -1,4 +1,4 @@
-# Bord4 Analysis Templates
+![Header](./docs/assets/github-header-banner-bord4-analysis-templates.png)
 
 Dette repoet samler notebook- og Python-maler som brukes av
 `cookiecutter-bord4-analysis` og den nye `b4-analysis-vibecoding-project`-malen.
@@ -8,15 +8,14 @@ analyseoppskrifter, ikke en generell prosjektmal.
 
 ## Krav
 
-- `pyenv` for Python-versjoner
+- Python 3.10 eller nyere
 - `uv` for avhengigheter, virtuelle miljø og kjøring av verktøy
 - `pakkenellik>=0.2.1` er minimum for malene
 
 Installer på macOS med Homebrew:
 
 ```bash
-brew upgrade
-brew install pyenv uv
+brew install uv
 ```
 
 ## Kom i gang
@@ -52,11 +51,18 @@ Lag en ny notebook-mal fra felles header:
 make new
 ```
 
+Installer lokal pre-commit-hook som fjerner output fra staged notebooks:
+
+```bash
+make install-hooks
+```
+
 ## Make-kommandoer
 
 - `make sync`: installer avhengigheter med `uv`
 - `make lab`: start Jupyter Lab med `uv run`
 - `make new`: kopier `templates/generic-header.ipynb` til en ny mal
+- `make install-hooks`: installer lokal git-hook som renser notebook-output før commit
 - `make format`: formater Python-filer og notebooks med Ruff
 - `make lint`: kjør Ruff og mypy
 
@@ -67,8 +73,8 @@ make new
 ├── data
 │   ├── processed
 │   ├── public
-│   ├── source
-│   └── untracked
+│   └── source
+├── docs
 ├── git
 ├── src
 ├── templates
@@ -84,10 +90,9 @@ make new
 - `data/source`: rådata som ikke skal endres.
 - `data/processed`: transformerte filer fra ETL eller analyse.
 - `data/public`: filer som publiseres eller brukes direkte ut mot lesere.
-- `data/untracked`: store eller sensitive filer som ikke skal inn i git.
+- `docs`: dokumentasjonsfiler og grafiske ressurser for repoet.
 - `src`: lokale Python-hjelpere som kan importeres fra notebooks.
 - `git`: git-hooks, blant annet hook for å fjerne notebook-output før commit.
-- `CLAUDE.md`: agentrettet dokumentasjon for hvordan template-kontrakten skal tolkes.
 
 I nye analyseprosjekter er anbefalt standard én `notebooks/`-mappe:
 
@@ -116,6 +121,7 @@ ETL-maler:
 - `etl-gis.ipynb`: hent geodata fra WFS og konverter til GeoJSON.
 - `etl-nvdb.ipynb`: hent data fra NVDB.
 - `etl-einnsyn.ipynb`: hent journalposter fra Einnsyn.
+- `etl_ssb_api.py`: hent befolkningstall fra SSB i et gjenbrukbart Python-script.
 
 EDA-maler:
 
@@ -136,6 +142,10 @@ Publiseringsmaler:
 - `publish-datawrapper-table.ipynb`: publiser en enkel Datawrapper-tabell.
 - `publish-datawrapper-mm.ipynb`: lag og publiser Datawrapper-graf med integrasjon.
 - `publish-datawrapper-update.ipynb`: oppdater eksisterende Datawrapper-chart.
+
+Fellesmal:
+
+- `generic-header.ipynb`: felles notebook-header med prosjektoppsett, miljøvariabler og logging.
 
 `templates.toml` er fasiten for hvor en mal skal kopieres i et prosjekt, hva den
 bør hete der og hvilke dependencies den trenger. Oppdater den når en mal får nye

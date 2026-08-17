@@ -38,6 +38,12 @@ new:  ## Create new template file from generic-header
 	cp templates/generic-header.ipynb templates/$$filename.ipynb; \
 	echo "Created templates/$$filename.ipynb"
 
+.PHONY: install-hooks
+install-hooks:  ## Install git hooks for this repository
+	@cp git/pre-commit .git/hooks/pre-commit
+	@chmod +x .git/hooks/pre-commit
+	@echo "Installed git/pre-commit to .git/hooks/pre-commit"
+
 ##@ Formatting and linting
 .PHONY: format
 format: ## Format Python files and notebooks with Ruff
