@@ -1,4 +1,5 @@
-"""Small SSB helper used by the SSB notebook template."""
+# %%
+"""Small SSB helper used by the cell-based SSB template."""
 
 from __future__ import annotations
 
@@ -6,6 +7,7 @@ import pandas as pd
 from pakkenellik.ssb import get_municipality_population
 
 
+# %%
 def fetch_population(
     years: list[int] | None = None,
     municipality_ids: list[str] | None = None,

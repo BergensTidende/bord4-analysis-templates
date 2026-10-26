@@ -28,25 +28,16 @@ UV_RUN = UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run
 sync:  ## Install dependencies with uv
 	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) sync
 
-.PHONY: lab
-lab:  ## Run Jupyter lab
-	$(UV_RUN) jupyter lab
-
 .PHONY: new
-new:  ## Create new template file from generic-header
-	@read -p "Enter file name for the new template:" filename; \
-	cp templates/generic-header.ipynb templates/$$filename.ipynb; \
-	echo "Created templates/$$filename.ipynb"
-
-.PHONY: install-hooks
-install-hooks:  ## Install git hooks for this repository
-	@cp git/pre-commit .git/hooks/pre-commit
-	@chmod +x .git/hooks/pre-commit
-	@echo "Installed git/pre-commit to .git/hooks/pre-commit"
+new:  ## Create a cell-based Python template from generic-header
+	@read -p "Enter file name (with or without .py): " filename; \
+	name=$${filename%.py}; \
+	cp templates/generic-header.py "templates/$$name.py"; \
+	echo "Created templates/$$name.py"
 
 ##@ Formatting and linting
 .PHONY: format
-format: ## Format Python files and notebooks with Ruff
+format: ## Format Python files with Ruff
 	@$(UV_RUN) ruff format src templates
 	@$(UV_RUN) ruff check --fix src templates
 
