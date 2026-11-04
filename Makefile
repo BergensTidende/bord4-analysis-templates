@@ -13,8 +13,6 @@ help:  ## Display this help
 #################################################################################
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-PROJECT_NAME = {{ cookiecutter.project_name }}
-PYTHON_INTERPRETER = python
 UV = uv
 UV_CACHE_DIR ?= $(PROJECT_DIR)/.uv-cache
 UV_RUN = UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run
@@ -26,7 +24,7 @@ UV_RUN = UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run
 ##@ Project Management
 .PHONY: sync
 sync:  ## Install dependencies with uv
-	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) sync
+	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) sync --group analysis
 
 .PHONY: new
 new:  ## Create a cell-based Python template from generic-header
@@ -38,13 +36,13 @@ new:  ## Create a cell-based Python template from generic-header
 ##@ Formatting and linting
 .PHONY: format
 format: ## Format Python files with Ruff
-	@$(UV_RUN) ruff format src templates
-	@$(UV_RUN) ruff check --fix src templates
+	@$(UV_RUN) ruff format src tests templates
+	@$(UV_RUN) ruff check --fix src tests templates
 
 .PHONY: lint-ruff
 lint-ruff: ## Ruff formatter and linter checks
-	@$(UV_RUN) ruff format --check src templates
-	@$(UV_RUN) ruff check src templates
+	@$(UV_RUN) ruff format --check src tests templates
+	@$(UV_RUN) ruff check src tests templates
 
 .PHONY: lint-mypy
 lint-mypy: ## mypy (static-type checker)
@@ -55,3 +53,46 @@ lint-mypy-report: ## run mypy & create report
 	@$(UV_RUN) mypy --config-file pyproject.toml src --html-report ./mypy_html
 
 lint: lint-ruff lint-mypy ## run all linters
+
+.PHONY: test
+test: ## Run tests
+	@$(UV_RUN) pytest
+
+.PHONY: build
+build: ## Build wheel and source distribution
+	@UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) build
+
+.PHONY: check
+check: lint test build ## Run all checks and build the package
+
+##@ Releases
+.PHONY: clean-dist
+clean-dist: ## remove built package artifacts
+	@rm -f dist/*.whl dist/*.tar.gz
+
+.PHONY: bump-patch
+bump-patch: check ## bump patch version, commit, tag, build and push
+	@$(MAKE) clean-dist
+	@$(UV_RUN) bump2version patch --verbose
+	@$(MAKE) build
+	@git push --follow-tags
+
+.PHONY: bump-minor
+bump-minor: check ## bump minor version, commit, tag, build and push
+	@$(MAKE) clean-dist
+	@$(UV_RUN) bump2version minor --verbose
+	@$(MAKE) build
+	@git push --follow-tags
+
+.PHONY: bump-major
+bump-major: check ## bump major version, commit, tag, build and push
+	@$(MAKE) clean-dist
+	@$(UV_RUN) bump2version major --verbose
+	@$(MAKE) build
+	@git push --follow-tags
+
+.PHONY: release
+release: check ## release package to PyPI (requires UV_PUBLISH_TOKEN)
+	@$(MAKE) clean-dist
+	@$(MAKE) build
+	@UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) publish

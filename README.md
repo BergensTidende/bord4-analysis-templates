@@ -1,17 +1,25 @@
-![Header](./docs/assets/github-header-banner-bord4-analysis-templates.png)
+![Header](https://raw.githubusercontent.com/BergensTidende/bord4-analysis-templates/master/docs/assets/github-header-banner-bord4-analysis-templates.png)
 
-Dette repoet samler cellebaserte Python-maler som brukes av
-`cookiecutter-bord4-analysis` og den nye `b4-analysis-vibecoding-project`-malen.
-Bruk `b4-analysis-vibecoding-project` som anbefalt prosjektmal for nye
-analyseprosjekter. Dette repoet er fortsatt kilden til gjenbrukbare
-analyseoppskrifter, ikke en generell prosjektmal.
+Dette er den versjonerte pakken for Bord4s cellebaserte Python-maler. Pakken
+inneholder både malene, den maskinlesbare katalogen og kommandolinjeverktøyet
+`b4-template`. Den brukes sammen med `pakkenellik`, som fortsatt inneholder de
+gjenbrukbare runtime-funksjonene for analyseprosjekter.
+
+Maler og runtime-kode har ulik livssyklus og ligger derfor i hver sin pakke:
+
+- `bord4-analysis-templates` kopierer redigerbare oppskrifter inn i et prosjekt.
+- `pakkenellik` importeres av oppskriftene og vedlikeholder stabil Python-kode.
+
+Dette repoet er ikke en generell prosjektmal. Bruk den gjeldende Bord4-
+prosjektmalen til å opprette nye prosjekter, og denne pakken til å legge til en
+konkret ETL-, EDA- eller publiseringsoppskrift.
 
 ## Krav
 
 - Python 3.11 eller nyere. Bruk en sikkerhetsoppdatert patchversjon (minst
   3.11.18, 3.12.16, 3.13.18, 3.14.10 eller 3.15.2).
 - `uv>=0.13.5` for avhengigheter, virtuelle miljø og kjøring av verktøy
-- `pakkenellik>=0.2.1` er minimum for malene
+- `pakkenellik>=0.2.4` er minimum for utviklingsmiljøet i repoet
 
 Installer på macOS med Homebrew:
 
@@ -20,16 +28,46 @@ brew install uv
 brew upgrade uv
 ```
 
-## Kom i gang
+## Bruk i et analyseprosjekt
 
-Installer avhengigheter:
+Kjør verktøyet direkte uten å installere det permanent:
 
 ```bash
-uv sync
+uvx --from bord4-analysis-templates b4-template --list
+uvx --from bord4-analysis-templates b4-template etl-read-csv.py
 ```
 
-Base-avhengighetene er holdt relativt lette. Tunge eller spesialiserte
-avhengigheter installeres etter behov, styrt av malen du bruker:
+Den siste kommandoen kopierer malen til plasseringen fra `templates.toml` og
+kjører `uv add` for avhengighetene malen trenger. Velg annet filnavn eller
+plassering slik:
+
+```bash
+uvx --from bord4-analysis-templates b4-template etl-api-json.py \
+  --name fetch-events.py \
+  --destination notebooks
+```
+
+Bruk `--no-install-dependencies` hvis verktøyet bare skal kopiere filen. Uten
+template-navn får du en interaktiv liste.
+
+Pakken kan også brukes fra Python:
+
+```python
+from bord4_analysis_templates import copy_template, list_templates
+
+print([template.name for template in list_templates()])
+copy_template("etl-read-csv.py", project_dir=".")
+```
+
+## Utvikling av pakken
+
+Installer pakke- og analyseavhengigheter:
+
+```bash
+uv sync --group analysis
+```
+
+Tunge eller spesialiserte avhengigheter installeres etter behov:
 
 ```bash
 uv sync --group gis
@@ -58,6 +96,13 @@ make new
 - `make new`: kopier `templates/generic-header.py` til en ny mal
 - `make format`: formater Python-filene med Ruff
 - `make lint`: kjør Ruff og mypy
+- `make test`: kjør testene
+- `make build`: bygg wheel og source distribution
+- `make check`: kjør lint, tester og bygg
+- `make bump-patch`, `make bump-minor`, `make bump-major`: sjekk pakken,
+  oppdater versjonen, opprett commit og tag, bygg og push
+- `make release`: bygg og publiser gjeldende versjon til PyPI; krever at
+  `UV_PUBLISH_TOKEN` er satt i miljøet
 
 ## Struktur
 
@@ -69,7 +114,9 @@ make new
 │   └── source
 ├── docs
 ├── src
+│   └── bord4_analysis_templates
 ├── templates
+├── tests
 ├── templates.toml
 ├── Makefile
 ├── pyproject.toml
@@ -77,8 +124,10 @@ make new
 └── uv.lock
 ```
 
-- `templates`: cellebaserte Python-maler som kan kopieres inn i prosjekter.
+- `src/bord4_analysis_templates`: katalog-API og CLI for pakken.
+- `templates`: cellebaserte Python-maler som pakkes inn i distribusjonen.
 - `templates.toml`: maskinlesbar oversikt over maler, destination, suggested_name og dependencies per mal.
+- `tests`: tester manifestet, pakkedataene og filkopieringen.
 - `data/source`: rådata som ikke skal endres.
 - `data/processed`: transformerte filer fra ETL eller analyse.
 - `data/public`: filer som publiseres eller brukes direkte ut mot lesere.
@@ -140,7 +189,8 @@ Fellesmal:
 
 `templates.toml` er fasiten for hvor en mal skal kopieres i et prosjekt, hva den
 bør hete der og hvilke dependencies den trenger. Oppdater den når en mal får nye
-imports eller slutter å trenge en avhengighet.
+imports eller slutter å trenge en avhengighet. Testene verifiserer at alle
+oppføringer peker på en faktisk mal.
 
 ## Bidra
 
