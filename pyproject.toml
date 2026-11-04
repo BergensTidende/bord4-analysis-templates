@@ -1,6 +1,6 @@
 [project]
 name = "bord4-analysis-templates"
-version = "0.1.0"
+version = "0.1.1"
 description = "Versioned analysis templates and a template installer for Bord4"
 authors = [{ name = "Lasse Lambrechts", email = "lasse.lambrechts@bt.no" }]
 readme = "README.md"
